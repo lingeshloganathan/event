@@ -27,7 +27,7 @@ enum RecordStatus {
 
 enum RoleType {
   ADMIN
-  VENDOR
+  EVENT_VENDOR
   SUPERVISOR
   ATTENDEE
   STALL_VENDOR
@@ -87,7 +87,7 @@ model User {
 
 model Role {
   id           String       @id @default(uuid())
-  name         RoleType
+  name         RoleType     @unique
   permissions  Permission[]
   users        User[]
   recordStatus RecordStatus @default(ACTIVE)

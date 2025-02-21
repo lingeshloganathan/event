@@ -62,6 +62,12 @@ enum ParticipantStatus {
   CANCELLED
 }
 
+enum TicketStatus {
+  PENDING
+  VALIDATED
+  CANCELLED
+}
+
 model User {
   id           String        @id @default(uuid())
   phoneNumber  String        @unique
@@ -70,13 +76,13 @@ model User {
   gender       Gender?
   role         Role?         @relation(fields: [roleId], references: [id])
   roleId       String?
-  Event        Event[]
-  Ticket       Ticket[]
-  Stall        Stall[]
+  events       Event[]
+  tickets      Ticket[]
+  stalls       Stall[]
+  participants Participant[]
   recordStatus RecordStatus  @default(ACTIVE)
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
-  Participant  Participant[]
 }
 
 model Role {
@@ -123,12 +129,12 @@ model Event {
   tickets          Ticket[]
   stalls           Stall[]
   guests           Guest[]
+  participants     Participant[]
   category         Category?        @relation(fields: [categoryId], references: [id])
   categoryId       String?
   recordStatus     RecordStatus     @default(ACTIVE)
   createdAt        DateTime         @default(now())
   updatedAt        DateTime         @updatedAt
-  Participant      Participant[]
 }
 
 model Venue {
@@ -153,12 +159,6 @@ model Ticket {
   recordStatus RecordStatus @default(ACTIVE)
   createdAt    DateTime     @default(now())
   updatedAt    DateTime     @updatedAt
-}
-
-enum TicketStatus {
-  PENDING
-  VALIDATED
-  CANCELLED
 }
 
 model Guest {

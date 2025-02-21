@@ -5,16 +5,18 @@ import {
   Body,
   Patch,
   Param,
-  Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { VenueService } from './venue.service';
 import { CreateVenueDto } from './dto/create-venue.dto';
 import { UpdateVenueDto } from './dto/update-venue.dto';
+import { JwtGuard } from 'src/guard/jwt-guard';
 
 @Controller('venue')
 export class VenueController {
   constructor(private readonly venueService: VenueService) {}
 
+  @UseGuards(JwtGuard)
   @Post()
   async create(@Body() input: CreateVenueDto) {
     return await this.venueService.create(input);

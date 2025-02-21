@@ -18,13 +18,13 @@ enum Gender {
   FEMALE
   OTHER
 }
- 
+
 enum RecordStatus {
   ACTIVE
   INACTIVE
   DELETED
 }
- 
+
 enum RoleType {
   ADMIN
   VENDOR
@@ -33,13 +33,13 @@ enum RoleType {
   STALL_VENDOR
   COORDINATOR
 }
- 
+
 enum RegistrationType {
   FREE
   UNLIMITED
   LIMITED
 }
- 
+
 enum EventType {
   SINGLE_DAY
   ALL_DAYS
@@ -49,29 +49,36 @@ enum EventType {
   SEASONAL
   ANNUAL
 }
- 
+
 enum StallStatus {
   PENDING
   APPROVED
   REJECTED
 }
- 
+
+enum ParticipantStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+}
+
 model User {
-  id           String       @id @default(uuid())
-  phoneNumber  String       @unique
+  id           String        @id @default(uuid())
+  phoneNumber  String        @unique
   name         String?
-  email        String?      @unique
+  email        String?       @unique
   gender       Gender?
-  role         Role?        @relation(fields: [roleId], references: [id])
+  role         Role?         @relation(fields: [roleId], references: [id])
   roleId       String?
   Event        Event[]
   Ticket       Ticket[]
   Stall        Stall[]
-  recordStatus RecordStatus @default(ACTIVE)
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
+  recordStatus RecordStatus  @default(ACTIVE)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  Participant  Participant[]
 }
- 
+
 model Role {
   id           String       @id @default(uuid())
   name         RoleType
@@ -81,7 +88,7 @@ model Role {
   createdAt    DateTime     @default(now())
   updatedAt    DateTime     @updatedAt
 }
- 
+
 model Permission {
   id           String       @id @default(uuid())
   name         String       @unique
@@ -90,19 +97,19 @@ model Permission {
   createdAt    DateTime     @default(now())
   updatedAt    DateTime     @updatedAt
 }
- 
+
 model Category {
-  id            String     @id @default(uuid())
-  name          String     @unique
+  id            String       @id @default(uuid())
+  name          String       @unique
   parentId      String?
-  parent        Category?  @relation("CategoryParent", fields: [parentId], references: [id])
-  subcategories Category[] @relation("CategoryParent")
+  parent        Category?    @relation("CategoryParent", fields: [parentId], references: [id])
+  subcategories Category[]   @relation("CategoryParent")
   events        Event[]
-  recordStatus RecordStatus @default(ACTIVE)
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
+  recordStatus  RecordStatus @default(ACTIVE)
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
 }
- 
+
 model Event {
   id               String           @id @default(uuid())
   name             String
@@ -118,60 +125,73 @@ model Event {
   guests           Guest[]
   category         Category?        @relation(fields: [categoryId], references: [id])
   categoryId       String?
-  recordStatus RecordStatus @default(ACTIVE)
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt  
+  recordStatus     RecordStatus     @default(ACTIVE)
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+  Participant      Participant[]
 }
- 
+
 model Venue {
-  id       String  @id @default(uuid())
-  name     String
-  address  String
-  events   Event[]
-  capacity Int?
+  id           String       @id @default(uuid())
+  name         String
+  address      String
+  events       Event[]
+  capacity     Int?
   recordStatus RecordStatus @default(ACTIVE)
   createdAt    DateTime     @default(now())
   updatedAt    DateTime     @updatedAt
 }
- 
+
 model Ticket {
-  id        String       @id @default(uuid())
-  userId    String
-  user      User         @relation(fields: [userId], references: [id])
-  eventId   String
-  event     Event        @relation(fields: [eventId], references: [id])
-  qrCode    String
-  status    TicketStatus @default(PENDING)
+  id           String       @id @default(uuid())
+  userId       String
+  user         User         @relation(fields: [userId], references: [id])
+  eventId      String
+  event        Event        @relation(fields: [eventId], references: [id])
+  qrCode       String
+  status       TicketStatus @default(PENDING)
   recordStatus RecordStatus @default(ACTIVE)
   createdAt    DateTime     @default(now())
   updatedAt    DateTime     @updatedAt
 }
- 
+
 enum TicketStatus {
   PENDING
   VALIDATED
   CANCELLED
 }
- 
+
 model Guest {
-  id        String  @id @default(uuid())
-  name  String
-  eventId   String
-  event     Event   @relation(fields: [eventId], references: [id])
+  id           String       @id @default(uuid())
+  name         String
+  eventId      String
+  event        Event        @relation(fields: [eventId], references: [id])
   recordStatus RecordStatus @default(ACTIVE)
   createdAt    DateTime     @default(now())
   updatedAt    DateTime     @updatedAt
 }
- 
+
 model Stall {
-  id      String      @id @default(uuid())
-  name    String
-  eventId String
-  event   Event       @relation(fields: [eventId], references: [id])
-  userId  String?
-  user    User?       @relation(fields: [userId], references: [id])
-  status  StallStatus @default(PENDING)
+  id           String       @id @default(uuid())
+  name         String
+  eventId      String
+  event        Event        @relation(fields: [eventId], references: [id])
+  userId       String?
+  user         User?        @relation(fields: [userId], references: [id])
+  status       StallStatus  @default(PENDING)
   recordStatus RecordStatus @default(ACTIVE)
   createdAt    DateTime     @default(now())
   updatedAt    DateTime     @updatedAt
+}
+
+model Participant {
+  id        String            @id @default(uuid())
+  userId    String
+  user      User              @relation(fields: [userId], references: [id])
+  eventId   String
+  event     Event             @relation(fields: [eventId], references: [id])
+  status    ParticipantStatus @default(PENDING)
+  createdAt DateTime          @default(now())
+
+  @@unique([userId, eventId])
 }

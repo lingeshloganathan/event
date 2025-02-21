@@ -7,9 +7,10 @@ export const VenueSelect: Prisma.VenueSelect = {
   capacity: true,
 };
 
-export const USerSelect: Prisma.UserSelect = {
+export const UserSelect: Prisma.UserSelect = {
   id: true,
   phoneNumber: true,
+  name: true,
   role: {
     select: {
       name: true,

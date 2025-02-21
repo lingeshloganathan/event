@@ -34,6 +34,7 @@ export class ParticipantService {
             userId: user.id,
             eventId: input.eventId,
             qrCode: `TICKET-${count + 1}`,
+            status: 'VALIDATED',
           },
         },
       },

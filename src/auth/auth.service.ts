@@ -3,7 +3,8 @@ import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from '../prisma/prisma.service';
 import { VerifyOTPDto } from './dto/verify-otp.dto';
 import { sendOtpInputDto } from './dto/send-otp.dto';
-import { USerSelect } from 'src/queryselect';
+import { UserSelect } from 'src/queryselect';
+import { BadRequestException } from '@nestjs/common';
 
 @Injectable()
 export class AuthService {
@@ -35,7 +36,7 @@ export class AuthService {
         phoneNumber: input.phoneNumber,
         recordStatus: { not: 'DELETED' },
       },
-      select: USerSelect,
+      select: UserSelect,
     });
     if (!user) {
       user = await this.prisma.user.create({
@@ -47,7 +48,7 @@ export class AuthService {
             },
           },
         },
-        select: USerSelect,
+        select: UserSelect,
       });
     }
     const payload = {

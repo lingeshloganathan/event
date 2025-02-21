@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { TicketFilterDto } from './dto/ticket-filter.dto';
+import { TicketFilterDto, TicketQrCodeDto } from './dto/ticket-filter.dto';
 import { Prisma } from '@prisma/client';
 import { TicketSelect } from 'src/queryselect';
 
@@ -37,11 +37,11 @@ export class TicketService {
     return ticket;
   }
 
-  async getQrCode(eventId: string, qrCode: string) {
+  async getQrCode(eventId: string, input: TicketQrCodeDto) {
     const ticket = await this.prisma.ticket.findFirst({
       where: {
-        id: eventId,
-        qrCode,
+        eventId: eventId,
+        qrCode: input.qrCode,
         recordStatus: { not: 'DELETED' },
         status: 'VALIDATED',
       },

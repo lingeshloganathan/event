@@ -156,7 +156,7 @@ model Ticket {
   eventId       String
   event         Event        @relation(fields: [eventId], references: [id])
   qrCode        String
-  status        TicketStatus @default(PENDING)
+  status        TicketStatus @default(VALIDATED)
   recordStatus  RecordStatus @default(ACTIVE)
   participant   Participant? @relation(fields: [participantId], references: [id])
   participantId String?      @unique

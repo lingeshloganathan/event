@@ -1,6 +1,6 @@
-import { Controller, Get, Param, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Param, Delete, Query, Body } from '@nestjs/common';
 import { TicketService } from './ticket.service';
-import { TicketFilterDto } from './dto/ticket-filter.dto';
+import { TicketFilterDto, TicketQrCodeDto } from './dto/ticket-filter.dto';
 
 @Controller('tickets')
 export class TicketController {
@@ -25,8 +25,11 @@ export class TicketController {
   }
 
   @Get('qrcode/:id')
-  async getQrCode(@Param('id') eventId: string, @Query() qrCode: string) {
-    const data = await this.ticketService.getQrCode(eventId, qrCode);
+  async getQrCode(
+    @Param('id') eventId: string,
+    @Body() input: TicketQrCodeDto,
+  ) {
+    const data = await this.ticketService.getQrCode(eventId, input);
     return {
       message: 'Ticket QR code fetched successfully',
       data,

@@ -5,3 +5,8 @@ export class TicketFilterDto {
   @IsString()
   eventId: string;
 }
+
+export class TicketQrCodeDto {
+  @IsString()
+  qrCode: string;
+}

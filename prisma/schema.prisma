@@ -21,7 +21,6 @@ enum Gender {
 
 enum RecordStatus {
   ACTIVE
-  INACTIVE
   DELETED
 }
 

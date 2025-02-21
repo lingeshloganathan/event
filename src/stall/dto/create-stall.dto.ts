@@ -8,8 +8,4 @@ export class CreateStallDto {
   @IsString()
   @IsNotEmpty()
   eventId: string;
-
-  @IsString()
-  @IsOptional()
-  userId?: string;
 }

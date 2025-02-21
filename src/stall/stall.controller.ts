@@ -12,14 +12,16 @@ import { StallService } from './stall.service';
 import { CreateStallDto } from './dto/create-stall.dto';
 import { UpdateStallDto } from './dto/update-stall.dto';
 import { FilterStallDto } from './dto/filter-stall.dto';
+import { CurrentUser } from 'src/decorators/current-user.decorator';
+import { User } from '@prisma/client';
 
 @Controller('stall')
 export class StallController {
   constructor(private readonly stallService: StallService) {}
 
   @Post()
-  async create(@Body() input: CreateStallDto) {
-    const data = await this.stallService.create(input);
+  async create(@Body() input: CreateStallDto, @CurrentUser() user: User) {
+    const data = await this.stallService.create(input, user);
     return {
       message: 'Stall created successfully',
       data,

@@ -50,8 +50,12 @@ export class StallController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() input: UpdateStallDto) {
-    return this.stallService.update(id, input);
+  async update(@Param('id') id: string, @Body() input: UpdateStallDto) {
+    const data = await this.stallService.update(id, input);
+    return {
+      message: 'Stall updated successfully',
+      data,
+    };
   }
 
   /*@Delete(':id')

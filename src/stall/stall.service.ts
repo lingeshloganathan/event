@@ -63,7 +63,11 @@ export class StallService {
       data: {
         status: input.status,
       },
-      select: StallSelect,
+      select: {
+        id: true,
+        name: true,
+        status: true,
+      },
     });
   }
 

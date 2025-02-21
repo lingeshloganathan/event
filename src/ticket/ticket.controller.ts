@@ -19,8 +19,8 @@ export class TicketController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string) {
-    const data = await this.ticketService.findOne(id);
+  async findOne(@Param('id') id: string, @CurrentUser() user: _User) {
+    const data = await this.ticketService.findOne(id, user);
     return {
       message: 'Ticket fetched successfully',
       data,
@@ -31,9 +31,8 @@ export class TicketController {
   async getQrCode(
     @Param('id') eventId: string,
     @Body() input: TicketQrCodeDto,
-    @CurrentUser() user: _User,
   ) {
-    const data = await this.ticketService.getQrCode(eventId, input, user);
+    const data = await this.ticketService.getQrCode(eventId, input);
     return {
       message: 'Ticket QR code fetched successfully',
       data,

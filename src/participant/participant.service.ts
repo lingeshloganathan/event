@@ -5,6 +5,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { Prisma, User } from '@prisma/client';
 import { EventService } from 'src/event/event.service';
 import { FilterParticipantDto } from './dto/filter-dto';
+import { ParticipantSelect } from 'src/queryselect';
 
 @Injectable()
 export class ParticipantService {
@@ -36,6 +37,7 @@ export class ParticipantService {
           },
         },
       },
+      select: ParticipantSelect,
     });
     return participant;
   }
@@ -47,6 +49,7 @@ export class ParticipantService {
     }
     return await this.prisma.participant.findMany({
       where,
+      select: ParticipantSelect,
     });
   }
 
@@ -55,6 +58,7 @@ export class ParticipantService {
       where: {
         id,
       },
+      select: ParticipantSelect,
     });
     if (!participant) {
       throw new BadRequestException('Participant not found');

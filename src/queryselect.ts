@@ -50,3 +50,22 @@ export const EventSelect: Prisma.EventSelect = {
     },
   },
 };
+
+export const TicketSelect: Prisma.TicketSelect = {
+  id: true,
+  qrCode: true,
+  status: true,
+};
+
+export const ParticipantSelect: Prisma.ParticipantSelect = {
+  id: true,
+  name: true,
+  status: true,
+  ticket: {
+    select: {
+      id: true,
+      qrCode: true,
+      status: true,
+    },
+  },
+};

@@ -30,7 +30,7 @@ export class VenueService {
 
   async findOne(id: string) {
     const venue = await this.prisma.venue.findUnique({
-      where: { id },
+      where: { id, recordStatus: { not: 'DELETED' } },
       select: {
         id: true,
         name: true,

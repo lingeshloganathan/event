@@ -4,17 +4,21 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { CreateGuestDto } from './dto/create-guest.dto';
-import { UpdateGuestDto } from './dto/update-guest.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { GuestSelect } from 'src/queryselect';
 import { FilterGuestDto } from './dto/filter-guest.dto';
 import { Prisma } from '@prisma/client';
+import { EventService } from 'src/event/event.service';
 
 @Injectable()
 export class GuestService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly eventService: EventService,
+  ) {}
 
   async create(input: CreateGuestDto) {
+    await this.eventService.findOne(input.eventId);
     const guest = await this.prisma.guest.create({
       data: {
         name: input.name,

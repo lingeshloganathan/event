@@ -1,4 +1,9 @@
-import { Injectable, NotFoundException, UseGuards } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+  UseGuards,
+} from '@nestjs/common';
 import { CreateVenueDto } from './dto/create-venue.dto';
 import { UpdateVenueDto } from './dto/update-venue.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -44,14 +49,17 @@ export class VenueService {
 
   async update(id: string, input: UpdateVenueDto) {
     const venue = await this.findOne(id);
+    if (!venue) {
+      throw new BadRequestException('Venue not found');
+    }
     return await this.prisma.venue.update({
       where: { id },
-      select: VenueSelect,
       data: {
         name: input.name,
         address: input.address,
         capacity: input.capacity,
       },
+      select: VenueSelect,
     });
   }
 }

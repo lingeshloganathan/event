@@ -21,6 +21,22 @@ export const CategorySelect: Prisma.CategorySelect = {
   id: true,
   name: true,
   parentId: true,
+  subcategories: {
+    select: {
+      id: true,
+      name: true,
+    },
+  },
+};
+
+export const GuestSelect: Prisma.GuestSelect = {
+  id: true,
+  name: true,
+};
+
+export const StallSelect: Prisma.StallSelect = {
+  id: true,
+  name: true,
 };
 
 export const EventSelect: Prisma.EventSelect = {

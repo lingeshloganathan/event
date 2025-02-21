@@ -1,14 +1,24 @@
-import { Controller, Get, Post, Body, Param, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { ParticipantService } from './participant.service';
 import { CreateParticipantDto } from './dto/create-participant.dto';
 import { CurrentUser } from 'src/decorators/current-user.decorator';
 import { User } from '@prisma/client';
 import { FilterParticipantDto } from './dto/filter-dto';
+import { JwtGuard } from 'src/guard/jwt-guard';
 
 @Controller('participant')
 export class ParticipantController {
   constructor(private readonly participantService: ParticipantService) {}
 
+  @UseGuards(JwtGuard)
   @Post()
   async create(@Body() input: CreateParticipantDto, @CurrentUser() user: User) {
     const data = await this.participantService.create(input, user);

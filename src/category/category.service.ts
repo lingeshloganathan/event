@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CategorySelect } from 'src/queryselect';
 
@@ -8,6 +8,7 @@ export class CategoryService {
   async findAll() {
     return await this.prisma.category.findMany({
       where: {
+        parentId: null,
         recordStatus: { not: 'DELETED' },
       },
       select: CategorySelect,
@@ -20,7 +21,7 @@ export class CategoryService {
       select: CategorySelect,
     });
     if (!category) {
-      throw new NotFoundException('Category not found');
+      throw new BadRequestException('Category not found');
     }
     return category;
   }

@@ -17,21 +17,37 @@ export class VenueController {
 
   @Post()
   async create(@Body() input: CreateVenueDto) {
-    return await this.venueService.create(input);
+    const data = await this.venueService.create(input);
+    return {
+      message: 'Venue created successfully',
+      data,
+    };
   }
 
   @Get()
   async findAll() {
-    return await this.venueService.findAll();
+    const data = await this.venueService.findAll();
+    return {
+      message: 'Venue fetched successfully',
+      data,
+    };
   }
 
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    return await this.venueService.findOne(id);
+    const data = await this.venueService.findOne(id);
+    return {
+      message: 'Venue fetched successfully',
+      data,
+    };
   }
 
   @Patch(':id')
   async update(@Param('id') id: string, @Body() input: UpdateVenueDto) {
-    return await this.venueService.update(id, input);
+    const data = await this.venueService.update(id, input);
+    return {
+      message: 'Venue updated successfully',
+      data,
+    };
   }
 }

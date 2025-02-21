@@ -5,7 +5,8 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { EventModule } from 'src/event/event.module';
 
 @Module({
-  controllers: [StallController, EventModule],
+  imports: [EventModule],
+  controllers: [StallController],
   providers: [StallService, PrismaService],
 })
 export class StallModule {}

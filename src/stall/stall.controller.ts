@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { StallService } from './stall.service';
 import { CreateStallDto } from './dto/create-stall.dto';
@@ -14,11 +15,13 @@ import { UpdateStallDto } from './dto/update-stall.dto';
 import { FilterStallDto } from './dto/filter-stall.dto';
 import { CurrentUser } from 'src/decorators/current-user.decorator';
 import { User } from '@prisma/client';
+import { JwtGuard } from 'src/guard/jwt-guard';
 
 @Controller('stall')
 export class StallController {
   constructor(private readonly stallService: StallService) {}
 
+  @UseGuards(JwtGuard)
   @Post()
   async create(@Body() input: CreateStallDto, @CurrentUser() user: User) {
     const data = await this.stallService.create(input, user);

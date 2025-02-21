@@ -38,3 +38,50 @@ export const StallSelect: Prisma.StallSelect = {
   id: true,
   name: true,
 };
+
+export const EventSelect: Prisma.EventSelect = {
+  id: true,
+  name: true,
+  description: true,
+  eventType: true,
+  registrationType: true,
+  date: true,
+  venue: {
+    select: {
+      id: true,
+      name: true,
+      address: true,
+      capacity: true,
+    },
+  },
+  category: {
+    select: {
+      name: true,
+      subcategories: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+    },
+  },
+};
+
+export const TicketSelect: Prisma.TicketSelect = {
+  id: true,
+  qrCode: true,
+  status: true,
+};
+
+export const ParticipantSelect: Prisma.ParticipantSelect = {
+  id: true,
+  name: true,
+  status: true,
+  ticket: {
+    select: {
+      id: true,
+      qrCode: true,
+      status: true,
+    },
+  },
+};

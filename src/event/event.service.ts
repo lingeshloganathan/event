@@ -3,13 +3,22 @@ import { CreateEventDto } from './dto/create-event.dto';
 import { UpdateEventDto } from './dto/update-event.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { User } from '@prisma/client';
+import { VenueService } from 'src/venue/venue.service';
+import { CategoryService } from 'src/category/category.service';
+import { EventSelect } from 'src/queryselect';
 
 @Injectable()
 export class EventService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private readonly venueService: VenueService,
+    private readonly categoryService: CategoryService,
+  ) {}
 
   async create(input: CreateEventDto, user: User) {
     const { categoryId, venueId, ...eventDto } = input;
+    await this.venueService.findOne(venueId);
+    await this.categoryService.findOne(categoryId);
     const data = await this.prisma.event.create({
       data: {
         ...eventDto,
@@ -17,29 +26,7 @@ export class EventService {
         venueId,
         userId: user.id,
       },
-      select: {
-        id: true,
-        name: true,
-        description: true,
-        eventType: true,
-        registrationType: true,
-        venue: {
-          select: {
-            name: true,
-            address: true,
-          },
-        },
-        category: {
-          select: {
-            name: true,
-            subcategories: {
-              select: {
-                name: true,
-              },
-            },
-          },
-        },
-      },
+      select: EventSelect,
     });
     return data;
   }
@@ -49,29 +36,7 @@ export class EventService {
       where: {
         recordStatus: { not: 'DELETED' },
       },
-      select: {
-        id: true,
-        name: true,
-        description: true,
-        eventType: true,
-        registrationType: true,
-        venue: {
-          select: {
-            name: true,
-            address: true,
-          },
-        },
-        category: {
-          select: {
-            name: true,
-            subcategories: {
-              select: {
-                name: true,
-              },
-            },
-          },
-        },
-      },
+      select: EventSelect,
     });
   }
 
@@ -81,29 +46,7 @@ export class EventService {
         id,
         recordStatus: { not: 'DELETED' },
       },
-      select: {
-        id: true,
-        name: true,
-        description: true,
-        eventType: true,
-        registrationType: true,
-        venue: {
-          select: {
-            name: true,
-            address: true,
-          },
-        },
-        category: {
-          select: {
-            name: true,
-            subcategories: {
-              select: {
-                name: true,
-              },
-            },
-          },
-        },
-      },
+      select: EventSelect,
     });
     if (!event) {
       throw new BadRequestException('Event not found');
@@ -112,32 +55,12 @@ export class EventService {
   }
 
   async update(id: string, input: UpdateEventDto) {
+    await this.findOne(id);
+    await this.venueService.findOne(input.venueId);
     const event = await this.prisma.event.update({
       where: { id },
       data: { ...input },
-      select: {
-        id: true,
-        name: true,
-        description: true,
-        eventType: true,
-        registrationType: true,
-        venue: {
-          select: {
-            name: true,
-            address: true,
-          },
-        },
-        category: {
-          select: {
-            name: true,
-            subcategories: {
-              select: {
-                name: true,
-              },
-            },
-          },
-        },
-      },
+      select: EventSelect,
     });
     return event;
   }
@@ -148,26 +71,6 @@ export class EventService {
       data: { recordStatus: 'DELETED' },
       select: {
         id: true,
-        name: true,
-        description: true,
-        eventType: true,
-        registrationType: true,
-        venue: {
-          select: {
-            name: true,
-            address: true,
-          },
-        },
-        category: {
-          select: {
-            name: true,
-            subcategories: {
-              select: {
-                name: true,
-              },
-            },
-          },
-        },
       },
     });
     return event;

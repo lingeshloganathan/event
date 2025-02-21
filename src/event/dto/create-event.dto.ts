@@ -1,5 +1,5 @@
 import { EventType, RegistrationType } from '@prisma/client';
-import { IsEnum, IsNotEmpty, IsString } from 'class-validator';
+import { IsDateString, IsEnum, IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateEventDto {
   @IsNotEmpty()
@@ -17,6 +17,10 @@ export class CreateEventDto {
   @IsEnum(RegistrationType)
   @IsNotEmpty()
   registrationType: RegistrationType;
+
+  @IsNotEmpty()
+  @IsDateString()
+  date: Date;
 
   @IsNotEmpty()
   @IsString()

@@ -126,6 +126,7 @@ model Event {
   venue            Venue            @relation(fields: [venueId], references: [id])
   userId           String
   user             User             @relation(fields: [userId], references: [id])
+  date             DateTime?
   tickets          Ticket[]
   stalls           Stall[]
   guests           Guest[]
@@ -149,16 +150,18 @@ model Venue {
 }
 
 model Ticket {
-  id           String       @id @default(uuid())
-  userId       String
-  user         User         @relation(fields: [userId], references: [id])
-  eventId      String
-  event        Event        @relation(fields: [eventId], references: [id])
-  qrCode       String
-  status       TicketStatus @default(PENDING)
-  recordStatus RecordStatus @default(ACTIVE)
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
+  id            String       @id @default(uuid())
+  userId        String
+  user          User         @relation(fields: [userId], references: [id])
+  eventId       String
+  event         Event        @relation(fields: [eventId], references: [id])
+  qrCode        String
+  status        TicketStatus @default(PENDING)
+  recordStatus  RecordStatus @default(ACTIVE)
+  participant   Participant? @relation(fields: [participantId], references: [id])
+  participantId String?      @unique
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
 }
 
 model Guest {
@@ -186,12 +189,16 @@ model Stall {
 
 model Participant {
   id        String            @id @default(uuid())
+  name      String?
   userId    String
   user      User              @relation(fields: [userId], references: [id])
   eventId   String
   event     Event             @relation(fields: [eventId], references: [id])
-  status    ParticipantStatus @default(PENDING)
+  ticketId  String?           @unique
+  ticket    Ticket?
+  status    ParticipantStatus @default(CONFIRMED)
   createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
 
   @@unique([userId, eventId])
 }

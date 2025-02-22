@@ -37,6 +37,7 @@ export const admin = [
   READ_ALL_STALL,
   READ_ALL_VENUE,
   READ_ALL_TICKET,
+  UPDATE_STALL,
 ];
 
 export const eventVendor = [
@@ -52,6 +53,7 @@ export const eventVendor = [
   READ_ALL_PARTICIPANT,
   CREATE_VENUE,
   UPDATE_VENUE,
+  UPDATE_STALL,
 ];
 
 export const supervisor = [CREATE_GUEST, READ_ALL_GUEST, READ_GUEST];
@@ -74,7 +76,6 @@ export const stallVendor = [
   READ_ALL_EVENT,
   READ_ALL_STALL,
   READ_STALL,
-  UPDATE_STALL,
   READ_ALL_VENUE,
   READ_VENUE,
 ];

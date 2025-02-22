@@ -1,11 +1,11 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateParticipantDto } from './dto/create-participant.dto';
-import { UpdateParticipantDto } from './dto/update-participant.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { Prisma, User } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import { EventService } from 'src/event/event.service';
 import { FilterParticipantDto } from './dto/filter-dto';
 import { ParticipantSelect } from 'src/queryselect';
+import { _User } from 'src/interface';
 
 @Injectable()
 export class ParticipantService {
@@ -14,7 +14,7 @@ export class ParticipantService {
     private readonly eventService: EventService,
   ) {}
 
-  async create(input: CreateParticipantDto, user: User) {
+  async create(input: CreateParticipantDto, user: _User) {
     const event = await this.eventService.findOne(input.eventId);
     const count = await this.prisma.participant.count({
       where: {

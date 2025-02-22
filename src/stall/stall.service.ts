@@ -4,8 +4,9 @@ import { UpdateStallDto } from './dto/update-stall.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { StallSelect } from 'src/queryselect';
 import { FilterStallDto } from './dto/filter-stall.dto';
-import { Prisma, User } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import { EventService } from 'src/event/event.service';
+import { _User } from 'src/interface';
 
 @Injectable()
 export class StallService {
@@ -14,7 +15,7 @@ export class StallService {
     private readonly eventService: EventService,
   ) {}
 
-  async create(input: CreateStallDto, user: User) {
+  async create(input: CreateStallDto, user: _User) {
     await this.eventService.findOne(input.eventId);
     return await this.prisma.stall.create({
       data: {

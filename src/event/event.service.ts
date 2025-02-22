@@ -2,10 +2,10 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateEventDto } from './dto/create-event.dto';
 import { UpdateEventDto } from './dto/update-event.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { User } from '@prisma/client';
 import { VenueService } from 'src/venue/venue.service';
 import { CategoryService } from 'src/category/category.service';
 import { EventSelect } from 'src/queryselect';
+import { _User } from 'src/interface';
 
 @Injectable()
 export class EventService {
@@ -15,7 +15,7 @@ export class EventService {
     private readonly categoryService: CategoryService,
   ) {}
 
-  async create(input: CreateEventDto, user: User) {
+  async create(input: CreateEventDto, user: _User) {
     const { categoryId, venueId, ...eventDto } = input;
     await this.venueService.findOne(venueId);
     await this.categoryService.findOne(categoryId);

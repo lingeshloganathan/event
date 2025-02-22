@@ -14,4 +14,5 @@ export interface _Role {
 export interface _User {
   id: string;
   role: _Role;
+  name: string;
 }

@@ -4,7 +4,6 @@ import { PrismaService } from '../prisma/prisma.service';
 import { VerifyOTPDto } from './dto/verify-otp.dto';
 import { sendOtpInputDto } from './dto/send-otp.dto';
 import { UserSelect } from 'src/queryselect';
-import { BadRequestException } from '@nestjs/common';
 
 @Injectable()
 export class AuthService {
@@ -17,10 +16,8 @@ export class AuthService {
 
   async generateOTP(input: sendOtpInputDto) {
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
-
     this.otpStore.set(input.phoneNumber, otp);
     console.log(`OTP for ${input.phoneNumber}: ${otp}`);
-
     return { message: 'OTP sent successfully', otp: `${otp}` };
   }
 
@@ -30,7 +27,6 @@ export class AuthService {
       throw new UnauthorizedException('Invalid OTP');
     }
     this.otpStore.delete(input.phoneNumber);
-
     let user = await this.prisma.user.findUnique({
       where: {
         phoneNumber: input.phoneNumber,

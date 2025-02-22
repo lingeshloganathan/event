@@ -1,8 +1,8 @@
-import { IsNotEmpty, IsString } from 'class-validator';
-import { StallStatus } from '@prisma/client';
+import { IsEnum, IsNotEmpty } from 'class-validator';
+import { StallStatus } from 'src/decorators/enum.dto';
 
 export class UpdateStallDto {
-  @IsString()
+  @IsEnum(StallStatus)
   @IsNotEmpty()
   status: StallStatus;
 }

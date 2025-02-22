@@ -45,6 +45,7 @@ export const eventVendor = [
   READ_ALL_EVENT,
   READ_EVENT,
   UPDATE_EVENT,
+  DELETE_EVENT,
   CREATE_GUEST,
   READ_ALL_GUEST,
   READ_GUEST,

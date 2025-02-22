@@ -39,7 +39,7 @@ export class AuthService {
         data: {
           phoneNumber: input.phoneNumber,
           role: {
-            create: {
+            connect: {
               name: input.roleType,
             },
           },

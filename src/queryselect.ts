@@ -13,7 +13,13 @@ export const UserSelect: Prisma.UserSelect = {
   name: true,
   role: {
     select: {
+      id: true,
       name: true,
+      permissions: {
+        select: {
+          name: true,
+        },
+      },
     },
   },
 };

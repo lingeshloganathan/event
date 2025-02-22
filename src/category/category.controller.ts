@@ -7,7 +7,6 @@ import {
 import { Permissions } from 'src/guard/permission';
 import { JwtGuard } from 'src/guard/jwt-guard';
 import { PermissionGuard } from 'src/guard/permission-guard';
-import { permissions } from 'script/permission.script';
 
 @Controller('category')
 @UseGuards(JwtGuard, PermissionGuard)

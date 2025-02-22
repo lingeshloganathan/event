@@ -5,7 +5,6 @@ import {
   Body,
   Patch,
   Param,
-  Delete,
   Query,
   UseGuards,
 } from '@nestjs/common';
@@ -14,16 +13,25 @@ import { CreateStallDto } from './dto/create-stall.dto';
 import { UpdateStallDto } from './dto/update-stall.dto';
 import { FilterStallDto } from './dto/filter-stall.dto';
 import { CurrentUser } from 'src/decorators/current-user.decorator';
-import { User } from '@prisma/client';
 import { JwtGuard } from 'src/guard/jwt-guard';
+import { _User } from 'src/interface';
+import { Permissions } from 'src/guard/permission';
+import {
+  CREATE_STALL,
+  READ_ALL_STALL,
+  READ_STALL,
+  UPDATE_STALL,
+} from 'script/const/permission.const';
+import { PermissionGuard } from 'src/guard/permission-guard';
 
 @Controller('stall')
+@UseGuards(JwtGuard, PermissionGuard)
 export class StallController {
   constructor(private readonly stallService: StallService) {}
 
-  @UseGuards(JwtGuard)
+  @Permissions(CREATE_STALL)
   @Post()
-  async create(@Body() input: CreateStallDto, @CurrentUser() user: User) {
+  async create(@Body() input: CreateStallDto, @CurrentUser() user: _User) {
     const data = await this.stallService.create(input, user);
     return {
       message: 'Stall created successfully',
@@ -31,6 +39,7 @@ export class StallController {
     };
   }
 
+  @Permissions(READ_ALL_STALL)
   @Get()
   async findAll(@Query() filter: FilterStallDto) {
     const data = await this.stallService.findAll(filter);
@@ -40,6 +49,7 @@ export class StallController {
     };
   }
 
+  @Permissions(READ_STALL)
   @Get(':id')
   async findOne(@Param('id') id: string) {
     const data = await this.stallService.findOne(id);
@@ -49,6 +59,7 @@ export class StallController {
     };
   }
 
+  @Permissions(UPDATE_STALL)
   @Patch(':id')
   async update(@Param('id') id: string, @Body() input: UpdateStallDto) {
     const data = await this.stallService.update(id, input);

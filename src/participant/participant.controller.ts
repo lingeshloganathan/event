@@ -10,17 +10,28 @@ import {
 import { ParticipantService } from './participant.service';
 import { CreateParticipantDto } from './dto/create-participant.dto';
 import { CurrentUser } from 'src/decorators/current-user.decorator';
-import { User } from '@prisma/client';
 import { FilterParticipantDto } from './dto/filter-dto';
 import { JwtGuard } from 'src/guard/jwt-guard';
+import { _User } from 'src/interface';
+import { Permissions } from 'src/guard/permission';
+import {
+  CREATE_PARTICIPANT,
+  READ_ALL_PARTICIPANT,
+  READ_PARTICIPANT,
+} from 'script/const/permission.const';
+import { PermissionGuard } from 'src/guard/permission-guard';
 
 @Controller('participant')
+@UseGuards(JwtGuard, PermissionGuard)
 export class ParticipantController {
   constructor(private readonly participantService: ParticipantService) {}
 
-  @UseGuards(JwtGuard)
+  @Permissions(CREATE_PARTICIPANT)
   @Post()
-  async create(@Body() input: CreateParticipantDto, @CurrentUser() user: User) {
+  async create(
+    @Body() input: CreateParticipantDto,
+    @CurrentUser() user: _User,
+  ) {
     const data = await this.participantService.create(input, user);
     return {
       message: 'Participant created successfully',
@@ -28,6 +39,7 @@ export class ParticipantController {
     };
   }
 
+  @Permissions(READ_ALL_PARTICIPANT)
   @Get()
   async findAll(@Query() input: FilterParticipantDto) {
     const data = await this.participantService.findAll(input);
@@ -37,6 +49,7 @@ export class ParticipantController {
     };
   }
 
+  @Permissions(READ_PARTICIPANT)
   @Get(':id')
   async findOne(@Param('id') id: string) {
     const data = await this.participantService.findOne(id);

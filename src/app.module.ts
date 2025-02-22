@@ -9,6 +9,7 @@ import { TicketModule } from './ticket/ticket.module';
 import { ParticipantModule } from './participant/participant.module';
 import { GuestModule } from './guest/guest.module';
 import { StallModule } from './stall/stall.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { StallModule } from './stall/stall.module';
     ParticipantModule,
     GuestModule,
     StallModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],

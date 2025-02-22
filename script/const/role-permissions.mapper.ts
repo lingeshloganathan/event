@@ -21,6 +21,7 @@ import {
   READ_VENUE,
   UPDATE_EVENT,
   UPDATE_STALL,
+  UPDATE_USER,
   UPDATE_VENUE,
 } from './permission.const';
 
@@ -38,6 +39,7 @@ export const admin = [
   READ_ALL_VENUE,
   READ_ALL_TICKET,
   UPDATE_STALL,
+  UPDATE_USER,
 ];
 
 export const eventVendor = [
@@ -54,9 +56,15 @@ export const eventVendor = [
   CREATE_VENUE,
   UPDATE_VENUE,
   UPDATE_STALL,
+  UPDATE_USER,
 ];
 
-export const supervisor = [CREATE_GUEST, READ_ALL_GUEST, READ_GUEST];
+export const supervisor = [
+  CREATE_GUEST,
+  READ_ALL_GUEST,
+  READ_GUEST,
+  UPDATE_USER,
+];
 
 export const attendee = [
   CREATE_PARTICIPANT,
@@ -67,9 +75,10 @@ export const attendee = [
   READ_ALL_CATEGORY,
   READ_TICKET,
   READ_ALL_VENUE,
+  UPDATE_USER,
 ];
 
-export const coordinator = [READ_TICKET_BY_QR_CODE];
+export const coordinator = [READ_TICKET_BY_QR_CODE, UPDATE_USER];
 
 export const stallVendor = [
   CREATE_STALL,
@@ -78,4 +87,5 @@ export const stallVendor = [
   READ_STALL,
   READ_ALL_VENUE,
   READ_VENUE,
+  UPDATE_USER,
 ];

@@ -40,6 +40,10 @@ export const admin = [
 ];
 
 export const eventVendor = [
+  CREATE_EVENT,
+  READ_ALL_EVENT,
+  READ_EVENT,
+  UPDATE_EVENT,
   CREATE_GUEST,
   READ_ALL_GUEST,
   READ_GUEST,

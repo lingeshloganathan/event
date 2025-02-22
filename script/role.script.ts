@@ -12,13 +12,13 @@ export async function roles() {
         create: {
           name: data.name,
           permissions: {
-            create: data,
+            connect: data.permissions,
           },
         },
         update: {
           name: data.name,
           permissions: {
-            set: data,
+            set: data.permissions,
           },
         },
       }),

@@ -15,7 +15,7 @@ import {
   supervisor,
 } from './role-permissions.mapper';
 
-const PermissionMapper = (Permissions: String[]) =>
+const PermissionMapper = (Permissions: string[]) =>
   Permissions.map((it) => ({ name: it }));
 
 export const rolesData = [

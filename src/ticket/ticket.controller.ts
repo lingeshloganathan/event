@@ -41,7 +41,8 @@ export class TicketController {
   @Get('qrcode/:id')
   async getQrCode(
     @Param('id') eventId: string,
-    @Body() input: TicketQrCodeDto,
+    // @Body() input: TicketQrCodeDto,
+    @Query() input: TicketQrCodeDto,
   ) {
     const data = await this.ticketService.getQrCode(eventId, input);
     return {

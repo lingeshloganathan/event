@@ -1,5 +1,12 @@
 import { EventType, RegistrationType } from '@prisma/client';
-import { IsDateString, IsEnum, IsNotEmpty, IsString } from 'class-validator';
+import {
+  IsArray,
+  IsDateString,
+  IsEnum,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class CreateEventDto {
   @IsNotEmpty()
@@ -18,9 +25,31 @@ export class CreateEventDto {
   @IsNotEmpty()
   registrationType: RegistrationType;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsDateString()
-  date: Date;
+  date: string; // Required for SINGLE_DAY
+
+  @IsOptional()
+  @IsArray()
+  @IsDateString()
+  customDates: string[]; // For CUSTOM_DATE events
+
+  @IsOptional()
+  @IsArray()
+  @IsDateString()
+  recurringDays: string[]; // For RECURRING events (e.g., ["Monday", "Wednesday"])
+
+  @IsOptional()
+  @IsDateString()
+  startDate: string; // For SEASONAL, ALL_DAYS
+
+  @IsOptional()
+  @IsDateString()
+  endDate: string; // For SEASONAL, ALL_DAYS
+
+  @IsOptional()
+  @IsDateString()
+  annualYearsCount: number; // For ANNUAL events
 
   @IsNotEmpty()
   @IsString()

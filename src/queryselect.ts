@@ -72,6 +72,7 @@ export const EventSelect: Prisma.EventSelect = {
       },
     },
   },
+  recurringDates: true,
 };
 
 export const TicketSelect: Prisma.TicketSelect = {

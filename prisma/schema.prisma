@@ -127,6 +127,7 @@ model Event {
   userId           String
   user             User             @relation(fields: [userId], references: [id])
   date             DateTime?
+  recurringDates   DateTime[]
   tickets          Ticket[]
   stalls           Stall[]
   guests           Guest[]

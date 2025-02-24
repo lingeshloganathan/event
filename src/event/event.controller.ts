@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { EventService } from './event.service';
 import { CreateEventDto } from './dto/create-event.dto';
@@ -23,6 +24,7 @@ import {
   UPDATE_EVENT,
 } from 'script/const/permission.const';
 import { PermissionGuard } from 'src/guard/permission-guard';
+import { FilterEventDto } from './dto/filter-event.dto';
 
 @Controller('events')
 @UseGuards(JwtGuard, PermissionGuard)
@@ -41,8 +43,8 @@ export class EventController {
 
   @Permissions(READ_ALL_EVENT)
   @Get()
-  async findAll() {
-    const data = await this.eventService.findAll();
+  async findAll(@Query() query: FilterEventDto) {
+    const data = await this.eventService.findAll(query);
     return {
       message: 'Events fetched successfully',
       data,

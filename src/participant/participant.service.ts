@@ -65,6 +65,7 @@ export class ParticipantService {
       ticketData.selectedDates = selectedDates;
     }
     const data: Prisma.ParticipantCreateInput = {
+      name: input.name,
       user: {
         connect: {
           id: user.id,

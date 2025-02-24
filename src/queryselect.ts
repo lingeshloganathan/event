@@ -103,6 +103,7 @@ export const ParticipantSelect: Prisma.ParticipantSelect = {
       id: true,
       qrCode: true,
       status: true,
+      selectedDates: true,
     },
   },
 };

@@ -9,6 +9,10 @@ import {
 export class CreateParticipantDto {
   @IsNotEmpty()
   @IsString()
+  name: string;
+
+  @IsNotEmpty()
+  @IsString()
   eventId: string;
 
   @IsOptional()

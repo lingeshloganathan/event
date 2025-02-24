@@ -20,6 +20,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "db:migrate": "prisma migrate dev",
     "db:generate": "prisma generate",
+    "db:deploy": "prisma migrate deploy && pnpm run db:generate",
     "load-category": "ts-node script/category.script.ts",
     "load-permission": "ts-node script/permission.script.ts",
     "load-role": "ts-node script/role.script.ts"

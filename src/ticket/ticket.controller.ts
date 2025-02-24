@@ -13,7 +13,7 @@ import { JwtGuard } from 'src/guard/jwt-guard';
 import { PermissionGuard } from 'src/guard/permission-guard';
 
 @Controller('tickets')
-// @UseGuards(JwtGuard, PermissionGuard)
+@UseGuards(JwtGuard, PermissionGuard)
 export class TicketController {
   constructor(private readonly ticketService: TicketService) {}
 

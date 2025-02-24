@@ -139,13 +139,15 @@ export class EventService {
     const dates: Date[] = [];
     const now = new Date();
     const year = now.getFullYear();
-
     for (let month = 0; month < 12; month++) {
-      const firstSaturday = new Date(year, month, 1);
-      while (firstSaturday.getDay() !== 6) {
-        firstSaturday.setDate(firstSaturday.getDate() + 1);
+      let firstDay = new Date(Date.UTC(year, month, 1));
+      // Find the first Saturday
+      let dayOfWeek = firstDay.getUTCDay(); // Get the day of the week in UTC
+      if (dayOfWeek !== 6) {
+        // Move forward to the first Saturday
+        firstDay.setUTCDate(firstDay.getUTCDate() + ((6 - dayOfWeek + 7) % 7));
       }
-      dates.push(new Date(firstSaturday));
+      dates.push(firstDay);
     }
     return dates;
   }

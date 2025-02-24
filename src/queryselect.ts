@@ -86,6 +86,12 @@ export const TicketSelect: Prisma.TicketSelect = {
   id: true,
   qrCode: true,
   status: true,
+  event: {
+    select: {
+      eventType: true,
+    },
+  },
+  selectedDates: true,
 };
 
 export const ParticipantSelect: Prisma.ParticipantSelect = {

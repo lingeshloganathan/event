@@ -10,6 +10,7 @@ import { ParticipantModule } from './participant/participant.module';
 import { GuestModule } from './guest/guest.module';
 import { StallModule } from './stall/stall.module';
 import { UserModule } from './user/user.module';
+import { CronModule } from './cron/cron.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { UserModule } from './user/user.module';
     GuestModule,
     StallModule,
     UserModule,
+    CronModule,
   ],
   controllers: [AppController],
   providers: [AppService],

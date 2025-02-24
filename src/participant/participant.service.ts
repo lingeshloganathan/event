@@ -24,20 +24,63 @@ export class ParticipantService {
     if (count === event.venue?.capacity) {
       throw new BadRequestException('Regitration over');
     }
-    const participant = await this.prisma.participant.create({
-      data: {
-        userId: user.id,
-        eventId: input.eventId,
-        name: user.name,
-        ticket: {
-          create: {
-            userId: user.id,
-            eventId: input.eventId,
-            qrCode: `TICKET-${count + 1}`,
-            status: 'VALIDATED',
-          },
+
+    const ticketData: Prisma.TicketCreateInput = {
+      user: {
+        connect: {
+          id: user.id,
         },
       },
+      event: {
+        connect: {
+          id: input.eventId,
+        },
+      },
+      qrCode: `TICKET-${count + 1}`,
+    };
+    if (event.eventType === 'SINGLE_DAY') {
+      if (input.selectedDates.length > 1) {
+        throw new BadRequestException(
+          'Single day event cannot have multiple dates',
+        );
+      }
+    }
+    //validate selected dates
+    let selectedDates: Date[] = [];
+    if (input.selectedDates.length > 0) {
+      selectedDates = input.selectedDates.map((date) => new Date(date));
+      const validDates = event.recurringDates.map((date) => new Date(date));
+      const isDateValid = selectedDates.every((date) =>
+        validDates.some(
+          (validDate) =>
+            validDate.toISOString().split('T')[0] ===
+            date.toISOString().split('T')[0],
+        ),
+      );
+      if (!isDateValid) {
+        throw new BadRequestException(
+          'One or more selected dates are not valid for this event',
+        );
+      }
+      ticketData.selectedDates = selectedDates;
+    }
+    const data: Prisma.ParticipantCreateInput = {
+      user: {
+        connect: {
+          id: user.id,
+        },
+      },
+      event: {
+        connect: {
+          id: input.eventId,
+        },
+      },
+      ticket: {
+        create: ticketData,
+      },
+    };
+    const participant = await this.prisma.participant.create({
+      data,
       select: ParticipantSelect,
     });
     return participant;

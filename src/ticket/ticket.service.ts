@@ -4,10 +4,14 @@ import { TicketFilterDto, TicketQrCodeDto } from './dto/ticket-filter.dto';
 import { Prisma, RoleType } from '@prisma/client';
 import { TicketSelect } from 'src/queryselect';
 import { _User } from 'src/interface';
+import { EventService } from 'src/event/event.service';
 
 @Injectable()
 export class TicketService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly eventService: EventService,
+  ) {}
 
   async findAll(input: TicketFilterDto) {
     const where: Prisma.TicketWhereInput = {
@@ -43,6 +47,7 @@ export class TicketService {
   }
 
   async getQrCode(eventId: string, input: TicketQrCodeDto) {
+    await this.eventService.findOne(eventId);
     const ticket = await this.prisma.ticket.findFirst({
       where: {
         eventId: eventId,
@@ -54,6 +59,15 @@ export class TicketService {
     });
     if (!ticket) {
       throw new BadRequestException('Ticket not found');
+    }
+    if (ticket.selectedDates && ticket.selectedDates.length > 0) {
+      const today = new Date().toISOString().split('T')[0];
+      const isDateValid = ticket.selectedDates.some(
+        (date) => new Date(date).toISOString().split('T')[0] === today,
+      );
+      if (!isDateValid) {
+        throw new BadRequestException('Ticket is not valid for today');
+      }
     }
     return ticket;
   }

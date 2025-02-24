@@ -24,6 +24,13 @@ export const UserSelect: Prisma.UserSelect = {
   },
 };
 
+export const UserUpdateSelect: Prisma.UserSelect = {
+  id: true,
+  name: true,
+  email: true,
+  gender: true,
+};
+
 export const CategorySelect: Prisma.CategorySelect = {
   id: true,
   name: true,

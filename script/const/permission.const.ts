@@ -35,3 +35,6 @@ export const CREATE_VENUE = 'CREATE_VENUE';
 export const READ_VENUE = 'READ_VENUE';
 export const READ_ALL_VENUE = 'READ_ALL_VENUE';
 export const UPDATE_VENUE = 'UPDATE_VENUE';
+
+/*user*/
+export const UPDATE_USER = 'UPDATE_USER';

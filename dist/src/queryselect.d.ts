@@ -1,0 +1,10 @@
+import { Prisma } from '@prisma/client';
+export declare const VenueSelect: Prisma.VenueSelect;
+export declare const UserSelect: Prisma.UserSelect;
+export declare const UserUpdateSelect: Prisma.UserSelect;
+export declare const CategorySelect: Prisma.CategorySelect;
+export declare const GuestSelect: Prisma.GuestSelect;
+export declare const StallSelect: Prisma.StallSelect;
+export declare const EventSelect: Prisma.EventSelect;
+export declare const TicketSelect: Prisma.TicketSelect;
+export declare const ParticipantSelect: Prisma.ParticipantSelect;

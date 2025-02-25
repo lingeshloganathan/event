@@ -44,7 +44,7 @@ export class EventService {
     ) {
       throw new BadRequestException('Date must be today or in the future');
     }
-    if (startDate && endDate && new Date(startDate) > new Date(endDate)) {
+    if (startDate > endDate || endDate < startDate) {
       throw new BadRequestException('Start date must be before end date');
     }
     switch (input.eventType) {

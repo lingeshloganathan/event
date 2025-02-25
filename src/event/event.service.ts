@@ -37,6 +37,23 @@ export class EventService {
       venue: { connect: { id: venueId } },
       user: { connect: { id: user.id } },
     };
+    if (
+      new Date(date) ||
+      new Date(startDate) ||
+      new Date(endDate) >= new Date()
+    ) {
+      throw new BadRequestException('Date must be today or in the future');
+    }
+    if (startDate > endDate) {
+      throw new BadRequestException('Start date must be before end date');
+    }
+    if (customDates) {
+      for (const date of customDates) {
+        if (new Date(date) < new Date()) {
+          throw new BadRequestException('Date must be today or in the future');
+        }
+      }
+    }
     switch (input.eventType) {
       case 'SINGLE_DAY':
         if (!date) {

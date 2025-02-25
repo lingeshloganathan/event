@@ -28,7 +28,6 @@ export class CreateEventDto {
 
   @IsOptional()
   @IsDateString()
-  @MinDate(new Date(), { message: 'Date must be today or in the future' })
   date: string; // Required for SINGLE_DAY
 
   @IsOptional()
@@ -47,12 +46,10 @@ export class CreateEventDto {
 
   @IsOptional()
   @IsDateString()
-  @MinDate(new Date(), { message: 'Start date must be today or in the future' })
   startDate: string; // For SEASONAL, ALL_DAYS
 
   @IsOptional()
   @IsDateString()
-  @MinDate(new Date(), { message: 'End date must be today or in the future' })
   endDate: string; // For SEASONAL, ALL_DAYS
 
   @IsOptional()

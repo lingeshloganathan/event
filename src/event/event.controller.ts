@@ -36,7 +36,7 @@ export class EventController {
   async create(@Body() input: CreateEventDto, @CurrentUser() user: _User) {
     const data = await this.eventService.create(input, user);
     return {
-      message: 'Event created successfully',
+      message: 'Event generated successfully',
       data,
     };
   }
